@@ -1,0 +1,48 @@
+<Window x:Class="WPFApp.FinestraPrincipale"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gestore attivita" Height="480" Width="720" MinHeight="380" MinWidth="580"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,16">
+            <TextBlock Text="Le mie attivita" FontSize="24" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Riepilogo}" Foreground="DimGray" Margin="0,4,0,0" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding NomeNuovaAttivita, UpdateSourceTrigger=PropertyChanged}" Padding="8" Margin="0,0,8,0" ToolTip="Nome dell'attivita" />
+            <TextBox Grid.Column="1" Text="{Binding DurataNuovaAttivita, UpdateSourceTrigger=PropertyChanged}" Padding="8" Margin="0,0,8,0" ToolTip="Durata in secondi" />
+            <Button Grid.Column="2" Content="Aggiungi" Command="{Binding AggiungiCommand}" IsEnabled="{Binding PulsantiAbilitati}" Padding="14,7" />
+        </Grid>
+
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Attivita}" SelectedItem="{Binding AttivitaSelezionata}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*" />
+                <DataGridTextColumn Header="Durata (secondi)" Binding="{Binding Durata}" Width="150" />
+                <DataGridTextColumn Header="Stato" Binding="{Binding StatoAttivita.Stato}" Width="130" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DockPanel Grid.Row="3" Margin="0,14,0,0">
+            <TextBlock Text="{Binding MessaggioErrore}" Foreground="Firebrick" VerticalAlignment="Center" TextWrapping="Wrap" />
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button Content="Aggiorna" Command="{Binding CaricaCommand}" IsEnabled="{Binding PulsantiAbilitati}" Padding="14,7" Margin="0,0,8,0" />
+                <Button Content="Avvia tutte" Command="{Binding AvviaTutteCommand}" IsEnabled="{Binding PulsantiAbilitati}" Padding="14,7" Margin="0,0,8,0" />
+                <Button Content="Avvia selezionata" Command="{Binding AvviaSelezionataCommand}" IsEnabled="{Binding PulsantiAbilitati}" Padding="14,7" />
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>
